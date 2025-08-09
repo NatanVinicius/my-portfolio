@@ -1,0 +1,42 @@
+#1 Build React application
+
+FROM node:20-bullseye-slim AS build
+
+
+
+WORKDIR /app
+
+#copy dep
+
+COPY package.json yarn.lock
+
+#install dep
+
+COPY . .
+
+RUN yarn cache clean
+RUN yarn install --frozen-lockfile --network-timeout 100000
+
+COPY . .
+
+RUN yarn build
+
+#nginx
+
+FROM nginx:stable-alpine
+
+RUN rm /etc/nginx/conf.d/default.conf
+
+#copy config nginx
+
+COPY nginx.conf /etc/nginx/conf.d
+
+#copy static files from react to nginx use
+
+COPY --from=build /app/dist /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
+
+

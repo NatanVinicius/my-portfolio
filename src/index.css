@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&family=Lexend+Giga:wght@100..900&display=swap');
+
+@import "tailwindcss";
+
+
+@theme {
+  --font-lexend-giga: "Lexend Giga", sans-serif; 
+  --font-lexend-deca: "Lexend Deca", sans-serif;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@layer utilities {
+  .animate-scroll {
+    animation: scroll 8s linear infinite;
+  }
+ .class-opacity-0 {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease, transform 0.5s ease;
+}
+
+.class-opacity-100 {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 1s ease, transform 0.5s ease;
+}
+
+
+  .animate-fade-in-up {
+    animation: fade-in-up 1s ease-out forwards;
+  }
+}
+
+
