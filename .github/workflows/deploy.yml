@@ -22,7 +22,7 @@ jobs:
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
         with:
-          project_id: ${{ secrets.GCP_PROJECT }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
 
       - name: Configure Docker to use gcloud as credential helper
         run: gcloud auth configure-docker $GCP_REGION-docker.pkg.dev
@@ -31,22 +31,22 @@ jobs:
 
       - name: Debug env vars
         run: |
-          echo "GCP_PROJECT: $GCP_PROJECT"
+          echo "GCP_PROJECT: $GCP_PROJECT_ID"
           echo "GCP_REGION: $GCP_REGION"
         env:
-          GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
+          GCP_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
           GCP_REGION: ${{ secrets.GCP_REGION }}
 
       - name: Build Docker image
         run: docker build -t $GCP_REGION-docker.pkg.dev/$GCP_PROJECT/portfolio-repo/my-portfolio:latest -f dockerfile.prod .
         env:
-          GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
+          GCP_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
           GCP_REGION: ${{ secrets.GCP_REGION }}
 
       - name: Push Docker image
         run: docker push $GCP_REGION-docker.pkg.dev/$GCP_PROJECT/portfolio-repo/my-portfolio:latest
         env:
-          GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
+          GCP_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
           GCP_REGION: ${{ secrets.GCP_REGION }}
 
       - name: Setup Terraform
